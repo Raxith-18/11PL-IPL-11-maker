@@ -266,6 +266,7 @@ function renderSelected() {
       <div class="selected-player">
         <b>
           ${i + 1}. ${p.name}
+          ${p.overseas ? " ✈️" : ""}
           ${captain === p.name ? " 🧢" : ""}
         </b>
       </div>
