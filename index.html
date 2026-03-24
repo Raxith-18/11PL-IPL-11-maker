@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- 🏠 HOME SCREEN -->
+<div id="homeScreen" class="home">
+
+  <div class="hero">
+    <img src="./images/main.png" class="main-logo">
+
+    <p>Create your ultimate Playing XI with real rules, strategy & power.</p>
+
+    <input type="text" id="username" placeholder="Enter your name">
+
+    <div class="actions">
+      <div id="teamSelector" style="display:none; margin-top:20px;">
+        <h3>Select a Team</h3>
+        <div id="teamList"></div>
+      </div>
+      <button onclick="startAllTeams()">All Teams XI</button>
+      <button onclick="showTeamSelector()">Single Team XI</button>
+    </div>
+  </div>
+
+</div>
+
+<div id="toast"></div>
+
+<!-- 🚀 MAIN APP -->
+<div id="app" style="display: none;">
+
+  
+  
+
+  <!-- ✅ HEADER HERE -->
+  <div class="header">
+
+    <button onclick="goHome()" class="home-btn">🏠 Home</button>
+
+    <div class="header-center">
+      <img id="teamLogo" class="team-logo">
+      <h2 id="teamName"></h2>
+    </div>
+
+    <img src="./images/main2.png" class="app-logo header-right">
+
+  </div>
+
+
+
+
+  
+
+<div class="main-layout">
+
+  <!-- LEFT SIDE -->
+  <div class="left-panel">
+
+    <div class="players-header">
+      <h3 class="players-title">Players</h3>
+
+      <div class="filters">
+        <button class="filter-btn active" onclick="setFilter('ALL', event)">All</button>
+        <button class="filter-btn" onclick="setFilter('BAT', event)">Bat</button>
+        <button class="filter-btn" onclick="setFilter('BOWL', event)">Bowl</button>
+        <button class="filter-btn" onclick="setFilter('AR', event)">AR</button>
+        <button class="filter-btn" onclick="setFilter('WK', event)">WK</button>
+      </div>
+    </div>
+
+    <div id="players"></div>
+
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="right-panel">
+
+  <h3>Your Team (0/11)</h3>
+
+  <div id="downloadCard" class="download-card">
+    <div id="downloadList"></div>
+    <div id="downloadHeader"></div>
+
+
+  <!-- TEAM LOGO -->
+  <img id="downloadLogo" style="
+    width:60px;
+    display:block;
+    margin:auto;
+    margin-bottom:10px;
+  ">
+
+  <!-- TEAM NAME -->
+  <h2 id="teamTitle"></h2>
+
+  <!-- PLAYERS -->
+  
+
+</div>
+
+  <div id="selectedPlayers"></div>
+
+  <!-- 🔥 IMPACT PLAYER GOES HERE -->
+  <div class="impact-container">
+
+    <div class="impact-label">Impact Player</div>
+
+    <div class="impact-dropdown">
+      <select id="impactSelect"></select>
+    </div>
+
+  </div>
+
+</div>
+
+  <br>
+
+  <div class="bottom-bar" id="bottomBar" style="display: none;">
+    <button class="action-btn clear" onclick="clearSelection()">Clear</button>
+    <button class="action-btn next" onclick="nextTeam()">Next</button>
+    <button class="action-btn skip" onclick="skipTeam()">Skip ⏭</button>
+    <button class="action-btn prev" onclick="prevTeam()">← Prev</button>
+  </div>
+
+</div>
+
+
+</div>
+
+
+
+<div id="captainModal" style="
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+">
+
+  <div class="modal-box" style="
+    padding:20px;
+    border-radius:12px;
+    width:80%;
+    max-width:700px;
+  ">
+
+    <h2>Select Your Captain</h2>
+
+    <div id="captainGrid" style="
+      display: grid;
+      grid-template-columns: repeat(auto-fit, 110px);
+      justify-content: center;
+      gap: 14px;
+    "></div>
+
+    <div id="impactDisplay" style="
+      margin-top:20px;
+      display:flex;
+      justify-content:center;
+    "></div>
+
+    <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
+      <button id="confirmBtn" disabled onclick="confirmCaptain()">Confirm & Next →</button>
+      <button onclick="downloadTeamImage()">📥 Download</button>
+      <button onclick="closeCaptainModal()" style="background:#475569;">Cancel</button>
+    </div>
+
+  </div>
+
+</div>
+
+
+<img id="logoMorph" style="
+  position:fixed;
+  width:80px;
+  top:20px;
+  right:30px;
+  z-index:2000;
+  pointer-events:none;
+  opacity:0;
+  transition: all 0.5s ease;
+">
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<!-- SCRIPT -->
+<script type="module" src="./app.js"></script>
+
+<div id="skipModal" class="skip-modal">
+  <div class="skip-box">
+
+    <h3>Skip this team?</h3>
+    <p>You can come back later and build it again.</p>
+
+    <div class="skip-actions">
+      <button class="btn cancel" onclick="closeSkipModal()">Cancel</button>
+      <button class="btn confirm" onclick="confirmSkip()">Skip →</button>
+    </div>
+
+  </div>
+</div>
+
+
+<div id="finalScreen" style="display:none; padding:20px;">
+  <div id="finalDownloadArea">
+
+    <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+      <button onclick="goHome()">🏠 Home</button>
+      <button id="restartBtn" onclick="restartApp()">🔄 Start Again</button>
+      <button onclick="downloadFinalImage()">📥 Download All</button>
+    </div>
+
+    <h2 id="finalTitle" style="text-align:center;"></h2>
+    <div id="allTeamsContainer"></div>
+
+  </div>
+
+</div>
+
+<div class="credit">
+  
+  
+</div>
+
+</body>
+</html>
