@@ -67,6 +67,9 @@ function loadTeam() {
   modal.classList.add("captain-modal"); // keep base class if any
   modal.classList.add(teams[currentTeam].name.toLowerCase());
 
+  document.querySelector(".action-btn.skip").style.display =
+    isSingleTeamMode ? "none" : "inline-block";
+
   console.log("CURRENT TEAM INDEX:", currentTeam);
 
   document.getElementById("bottomBar").style.display = "flex";
@@ -844,6 +847,10 @@ function downloadTeamImage() {
 
 window.startAllTeams = function () {
 
+  isSingleTeamMode = false;
+
+  document.querySelector(".action-btn.skip").style.display = "inline-block";
+
   userName = document.getElementById("username").value.trim();
 
   if (!userName) {
@@ -883,6 +890,10 @@ window.showTeamSelector = function () {
 };
 
 window.startSingleTeam = function (teamName) {
+
+  isSingleTeamMode = true;
+
+  document.querySelector(".action-btn.skip").style.display = "none";
 
   userName = document.getElementById("username").value.trim();
 
